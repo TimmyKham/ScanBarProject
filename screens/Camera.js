@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Root, Popup } from 'popup-ui';
 
 const Camera = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -15,7 +17,17 @@ const Camera = () => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    fetch('https://us.openfoodfacts.org/api/v0/product/' + data)
+      .then((response) => response.json())
+      .then((json) => {
+        if(json.status === 1) {
+          console.log("Product found");
+        } else {
+          console.log("Product not found");
+        }
+      })             
+      .catch((error) => console.error(error))
+      .finally(() => console.log(productData));
   };
 
   if (hasPermission === null) {
@@ -79,5 +91,4 @@ const styles = StyleSheet.create({
     backgroundColor: opacity
   },
 });
-
 export default Camera;
