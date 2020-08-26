@@ -3,7 +3,9 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator} from '@react-navigation/stack';
 import Camera from './screens/Camera';
+import ProductDetails from './screens/ProductDetails'
 import { Icon } from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
@@ -14,6 +16,28 @@ function History() {
       <Text>Historiques :</Text>
     </View>
   )
+}
+
+const CameraStack = createStackNavigator();
+
+function CameraStackScreen() {
+  return (
+      <CameraStack.Navigator>
+        <CameraStack.Screen name="Camera" component={Camera} />
+        <CameraStack.Screen name="Details" component={ProductDetails} />
+      </CameraStack.Navigator>
+  );
+}
+
+const HistoryStack = createStackNavigator();
+
+function HistoryStackScreen() {
+  return (
+      <HistoryStack.Navigator>
+        <HistoryStack.Screen name="History" component={History} />
+        <HistoryStack.Screen name="Details" component={ProductDetails} />
+      </HistoryStack.Navigator>
+  );
 }
 
 export default function App() {
@@ -36,8 +60,8 @@ export default function App() {
             activeTintColor: 'blue',
             inactiveTintColor: 'gray',
         }}>
-        <Tab.Screen name="Camera" component={Camera} />
-        <Tab.Screen name="History" component={History} />
+        <Tab.Screen name="Camera" component={CameraStackScreen} />
+        <Tab.Screen name="History" component={HistoryStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

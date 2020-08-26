@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Root, Popup } from 'popup-ui';
 
-const Camera = () => {
+const Camera = ({navigation}) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [productData, setProductData] = useState([]);
@@ -22,12 +21,26 @@ const Camera = () => {
       .then((json) => {
         if(json.status === 1) {
           console.log("Product found");
+          setProductData(json.product); 
+          navigation.navigate('Details');
         } else {
           console.log("Product not found");
+          Alert.alert(
+            "Error",
+            "Product not found",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+              { cancelable: false }
+            );
         }
       })             
       .catch((error) => console.error(error))
-      .finally(() => console.log(productData));
   };
 
   if (hasPermission === null) {
