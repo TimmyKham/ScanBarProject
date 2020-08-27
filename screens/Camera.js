@@ -22,7 +22,9 @@ const Camera = ({navigation}) => {
         if(json.status === 1) {
           console.log("Product found");
           setProductData(json.product); 
-          navigation.navigate('Details');
+          navigation.navigate('Details', {
+            params: { productData: json.product }
+          }); 
         } else {
           console.log("Product not found");
           Alert.alert(

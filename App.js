@@ -7,6 +7,8 @@ import { createStackNavigator} from '@react-navigation/stack';
 import Camera from './screens/Camera';
 import ProductDetails from './screens/ProductDetails'
 import { Icon } from 'react-native-elements';
+import { Provider as PaperProvider } from 'react-native-paper';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -42,28 +44,30 @@ function HistoryStackScreen() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
+    <PaperProvider>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
 
-                if (route.name === 'Camera') {
-                    iconName = 'camera'
-                } else if (route.name === 'History') {
-                    iconName = 'list';
-                }
+                  if (route.name === 'Camera') {
+                      iconName = 'camera'
+                  } else if (route.name === 'History') {
+                      iconName = 'list';
+                  }
 
-                // You can return any component that you like here!
-                return <Icon name={iconName} size={size} color={color} />;
-            },
-        })} tabBarOptions={{
-            activeTintColor: 'blue',
-            inactiveTintColor: 'gray',
-        }}>
-        <Tab.Screen name="Camera" component={CameraStackScreen} />
-        <Tab.Screen name="History" component={HistoryStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+                  // You can return any component that you like here!
+                  return <Icon name={iconName} size={size} color={color} />;
+              },
+          })} tabBarOptions={{
+              activeTintColor: 'blue',
+              inactiveTintColor: 'gray',
+          }}>
+          <Tab.Screen name="Camera" component={CameraStackScreen} />
+          <Tab.Screen name="History" component={HistoryStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
