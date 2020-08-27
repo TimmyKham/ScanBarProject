@@ -2,6 +2,6 @@
 React Native - Clone Yuka App
 
 - npm install
-- expo start
+- run "expo start"
 
 Use IOS in priority
