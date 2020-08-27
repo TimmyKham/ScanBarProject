@@ -4,9 +4,11 @@ Use IOS in priority
 
 ## Installation
 
-- npm install
+```shell
+$ npm install
+```
 
-### Setup
+## Setup
 
 ```shell
 $ expo start
