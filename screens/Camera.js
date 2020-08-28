@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Alert} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, Vibration} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -12,12 +12,13 @@ const Camera = ({navigation}) => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
-      AsyncStorage.removeItem('store');
+      //AsyncStorage.removeItem('store');
     })();
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    Vibration.vibrate();
     fetch('https://us.openfoodfacts.org/api/v0/product/' + data)
       .then((response) => response.json())
       .then((json) => {

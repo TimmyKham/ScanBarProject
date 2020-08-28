@@ -10,20 +10,9 @@ const config = {
     deviceHeight: Dimensions.get('window').height
 }
 
-const getData = async () => {
-    try {
-        const jsonValue = await AsyncStorage.getItem('store')
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (e) {
-
-    }
-}
-
 const ProductDetails = ({ route }) => {
 
     const data = route.params.params.productData;
-
-    getData().then((data) => console.log(data.length));
 
     return (
         <SafeAreaView style={styles.container}>

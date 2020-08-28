@@ -1,24 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator} from '@react-navigation/stack';
 import Camera from './screens/Camera';
-import ProductDetails from './screens/ProductDetails'
+import ProductDetails from './screens/ProductDetails';
+import History from './screens/History';
 import { Icon } from 'react-native-elements';
 import { Provider as PaperProvider } from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Tab = createBottomTabNavigator();
-
-function History() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Historiques :</Text>
-    </View>
-  )
-}
 
 const CameraStack = createStackNavigator();
 
@@ -36,7 +30,7 @@ const HistoryStack = createStackNavigator();
 function HistoryStackScreen() {
   return (
       <HistoryStack.Navigator>
-        <HistoryStack.Screen name="History" component={History} />
+        <HistoryStack.Screen name="History" component={History}/>
         <HistoryStack.Screen name="Details" component={ProductDetails} />
       </HistoryStack.Navigator>
   );
