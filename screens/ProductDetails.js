@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Image, Dimensions, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const config = {
@@ -9,9 +10,21 @@ const config = {
     deviceHeight: Dimensions.get('window').height
 }
 
+const getData = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('store')
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+
+    }
+}
+
 const ProductDetails = ({ route }) => {
 
     const data = route.params.params.productData;
+
+    getData().then((data) => console.log(data.length));
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.ScrollView}>

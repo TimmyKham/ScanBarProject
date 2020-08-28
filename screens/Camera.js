@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Alert} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Camera = ({navigation}) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -11,6 +12,7 @@ const Camera = ({navigation}) => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
+      AsyncStorage.removeItem('store');
     })();
   }, []);
 
@@ -20,11 +22,25 @@ const Camera = ({navigation}) => {
       .then((response) => response.json())
       .then((json) => {
         if(json.status === 1) {
-          console.log("Product found");
-          setProductData(json.product); 
-          navigation.navigate('Details', {
-            params: { productData: json.product }
-          }); 
+          (async () => {
+            try {
+                const fetchStorage = await AsyncStorage.getItem('store') || '[]';
+                let products = JSON.parse(fetchStorage);
+
+                if(products.findIndex(element => element.code === json.product.code ) < 0){
+                  products.push(json.product);
+                  await AsyncStorage.setItem('store', JSON.stringify(products));
+                };
+                console.log("LENGTH :" + products.length)
+                
+                navigation.navigate('Details', {
+                    params: { productData: json.product }
+                });
+                
+            } catch (error) {
+                alert("AYY" + error);
+            }
+        })();
         } else {
           console.log("Product not found");
           Alert.alert(
